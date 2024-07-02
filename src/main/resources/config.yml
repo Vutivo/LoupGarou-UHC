@@ -1,0 +1,13 @@
+#######################################################
+#            Loups-Garous UHC -  Version 0.1          #
+#                  Author : Vutivo                    #
+#######################################################
+
+Spawn: #Spawn du joueur
+  worldName: "world"
+  location: 0, 152, 0
+
+Cage:  #Permet de generer une cage au spawn !
+  state: true
+  cageSize: 50
+  cageHeight: 4

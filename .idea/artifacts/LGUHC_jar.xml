@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="LGUHC:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/LGUHC_jar</output-path>
+    <root id="archive" name="LGUHC.jar">
+      <element id="module-output" name="LGUHC" />
+    </root>
+  </artifact>
+</component>
