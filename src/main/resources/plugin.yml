@@ -1,4 +1,9 @@
 name: LGUHC
 author: Vutivo
-version: 0
+version: '${project.version}'
 main: fr.vutivo.lguhc.LGUHC
+commands:
+  lg:
+    description: Information sur la partie
+  host:
+    description: Configuration de la partie

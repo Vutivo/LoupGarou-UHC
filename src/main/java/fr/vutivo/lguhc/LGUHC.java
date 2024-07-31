@@ -1,31 +1,40 @@
 package fr.vutivo.lguhc;
 
+import fr.vutivo.lguhc.commands.CommandHost;
+import fr.vutivo.lguhc.commands.CommandLg;
 import fr.vutivo.lguhc.event.EventManager;
 import fr.vutivo.lguhc.game.UHCState;
-import fr.vutivo.lguhc.scoreboard.ScoreboardManager;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
+import java.util.Collections;
+
 
 public final class LGUHC extends JavaPlugin {
 
+
+    public  String TabName = "§5§k|||§6 Vuti§bGAMES §5§k|||";
+    public String gameTag = "§b§l[§6§lLOUP-GAROUS§b§l] §r";
+
+
+    public String PrefixTab = "§c HOST §r";
+
     public UHCState state;
     public Integer nbPlayers = 0;
-    public  Integer nbRoles = 0;
+    public Integer nbRoles = 0;
 
     //Cage
-    public boolean cage = true;
-    public Integer cageSize = 50;
-    public Integer cageHeight = 4;
+    public boolean cage;
+    public Integer cageSize;
+    public Integer cageHeight;
 
     public World world;
     public WorldBorder wb;
     public Location Spawn;
+
 
 
     //Color
@@ -40,19 +49,15 @@ public final class LGUHC extends JavaPlugin {
     public final String WHITE = "\u001B[37m";
 
 
-
     @Override
     public void onEnable() {
-        System.out.println(GREEN +"[LOUP-GAROUS] Le plugin est en cours de demarage");
+        System.out.println(GREEN + "[LOUP-GAROUS] Le plugin est en cours de demarage");
+
         //Save du config.yml
-            saveDefaultConfig();
+        saveDefaultConfig();
 
-        world = Bukkit.getWorld(getConfig().getString("Spawn.worldName"));
-        Spawn = getLocation(getConfig().getString("Spawn.location"));
-
-        cage = getConfig().getBoolean("Cage.state");
-        cageSize = getConfig().getInt("Cage.cageSize");
-        cageHeight = getConfig().getInt("Cage.cageHeight");
+        loadConfig();
+        
 
         if (world != null) {
             world.setPVP(true);
@@ -65,27 +70,64 @@ public final class LGUHC extends JavaPlugin {
             world.setDifficulty(Difficulty.HARD);
             wb = world.getWorldBorder();
 
-            if(!cage){
-                System.out.println(RED+"LOUP-GAROUS La cage n'a pas ete build");
-            }else {
-                createCage();
-            }
-
         } else {
-            getLogger().severe(RED+"LOUP-GAROUS Impossible de trouver le monde !");
+            getLogger().severe(RED + "LOUP-GAROUS Impossible de trouver le monde !");
         }
-
-        state = UHCState.WAITTING;
         EventManager.registerEvents(this);
+        state = UHCState.WAITTING;
 
+        getCommand("lg").setExecutor(new CommandLg(this));
+        getCommand("host").setExecutor(new CommandHost(this));
+
+
+
+
+        System.out.println(RED +  "========================================" + RESET);
+        System.out.println(GREEN + "Plugin LOUP-GAROU UHC - Version 0.1" + RESET);
+        System.out.println(YELLOW + "       Auteur : Vutivo" + RESET);
+        System.out.println(RED +  "========================================" + RESET);
 
     }
 
     @Override
     public void onDisable() {
         deleteCage();
-        System.out.println(BLUE+"[LOUP-GAROUS] Le plugin s'eteint");
+        System.out.println(BLUE + "[LOUP-GAROUS] Le plugin s'eteint");
+    }
+
+
+    private void loadConfig() {
+
+        world = Bukkit.getWorld(getConfig().getString("Spawn.worldName"));
+        Spawn = getLocation(getConfig().getString("Spawn.location"));
+
+        cage = getConfig().getBoolean("Cage.state");
+        cageSize = getConfig().getInt("Cage.cageSize");
+        cageHeight = getConfig().getInt("Cage.cageHeight");
+
+
+
+        if (!cage) {
+            System.out.println(RED + "LOUP-GAROUS La cage n'a pas ete build");
+        } else {
+            createCage();
         }
+
+
+    }
+
+
+    //STATE
+    public void setState(UHCState state) {
+        this.state = state;
+    }
+
+    public Boolean isState(UHCState state) {
+        return this.state == state;
+    }
+
+
+
     public void createCage() {
         World world = Bukkit.getWorlds().get(0);
         int startY = 150;
@@ -110,9 +152,9 @@ public final class LGUHC extends JavaPlugin {
             }
         }
 
-
-        System.out.println(CYAN+"[LOUP-GAROUS] La cage au spawn a ete genere !");
+        System.out.println(CYAN + "[LOUP-GAROUS] La cage au spawn a ete genere !");
     }
+
     public void deleteCage() {
         World world = Bukkit.getWorlds().get(0);
         int startY = 150;
@@ -139,6 +181,7 @@ public final class LGUHC extends JavaPlugin {
 
 
     }
+
     private Location getLocation(String loc) {
         String[] args = loc.split(",");
 
@@ -148,4 +191,18 @@ public final class LGUHC extends JavaPlugin {
 
         return new Location(world, x, y, z);
     }
+
+    public  static ItemStack BuildItems(Material material,int color, String name, String lore){
+        ItemStack item = new ItemStack(material , 1, (short) color); // si pas de couleur le mettre à 0
+        ItemMeta meta = item.getItemMeta();
+        meta.setLore(Collections.singletonList(lore));
+        meta.setDisplayName(name);
+
+        item.setItemMeta(meta);
+        return item;
+
+    }
+
+
 }
+

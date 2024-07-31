@@ -5,18 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="da3173a1-a106-469d-b2cc-99b94bc9f9be" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/LGUHC_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/scoreboard/ScoreboardManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/config.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/commands/CommandHost.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/commands/CommandLg.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/gui/ConfigGui.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/scoreboard/TabList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependency-reduced-pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/LGUHC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/LGUHC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/event/EventManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/event/EventManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/event/UHCJoin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/event/UHCJoin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/scoreboard/ScoreboardManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/scoreboard/ScoreboardManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/scoreboard/Tablist.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/tools/Reflection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,44 +36,51 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 4
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="2ihJ1tQWDhV9apKS8M2lpdnwoQ6" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Maven.LGUHC [clean].executor": "Run",
-    "Maven.LGUHC [install].executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/kenlc/OneDrive/Bureau/spigot-1.8.8.jar",
-    "onboarding.tips.debug.path": "C:/Users/kenlc/OneDrive/Bureau/Java/LG UHC/src/main/java/fr/vutivo/Main.java",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.28010705",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Maven.LGUHC [clean,install,-U].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.LGUHC [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.LGUHC [dependency:tree,-Ddetail=true].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.LGUHC [install].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/kenlc/OneDrive/Bureau/spigot-1.8.8.jar&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/kenlc/OneDrive/Bureau/Java/LG UHC/src/main/java/fr/vutivo/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.28010705&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="fr.vutivo.lguhc.commands" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\kenlc\OneDrive\Bureau\Java\LG UHC" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\kenlc\OneDrive\Bureau\Java\LG UHC" />
       <recent name="C:\Users\kenlc\OneDrive\Bureau\Java\LG UHC\src\main\resources" />
+      <recent name="C:\Users\kenlc\OneDrive\Bureau\Java\LG UHC" />
     </key>
   </component>
   <component name="RunAnythingCache">
     <option name="myCommands">
+      <command value="mvn dependency:tree -Ddetail=true" />
+      <command value="mvn clean install -U" />
       <command value="mvn clean" />
       <command value="mvn install" />
     </option>
