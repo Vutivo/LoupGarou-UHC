@@ -5,21 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="da3173a1-a106-469d-b2cc-99b94bc9f9be" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/commands/CommandHost.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/commands/CommandLg.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/gui/ConfigGui.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/scoreboard/TabList.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/event/UHCPvp.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/game/Joueur.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/game/UHCStart.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/game/UHCgame.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/role/LgCamps.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/role/LgDescription.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/role/LgRoles.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dependency-reduced-pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/LGUHC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/LGUHC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/commands/CommandHost.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/commands/CommandHost.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/commands/CommandLg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/commands/CommandLg.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/event/EventManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/event/EventManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/event/UHCJoin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/event/UHCJoin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/gui/ConfigGui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/gui/ConfigGui.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/scoreboard/ScoreboardManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/scoreboard/ScoreboardManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/scoreboard/Tablist.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/tools/Reflection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/scoreboard/Tablist.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/vutivo/lguhc/scoreboard/Tablist.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,12 +31,16 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenRunner">
+    <option name="skipTests" value="true" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,

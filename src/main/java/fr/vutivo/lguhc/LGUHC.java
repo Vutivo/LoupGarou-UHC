@@ -3,28 +3,47 @@ package fr.vutivo.lguhc;
 import fr.vutivo.lguhc.commands.CommandHost;
 import fr.vutivo.lguhc.commands.CommandLg;
 import fr.vutivo.lguhc.event.EventManager;
+import fr.vutivo.lguhc.game.Joueur;
 import fr.vutivo.lguhc.game.UHCState;
+import fr.vutivo.lguhc.role.LgRoles;
+import fr.vutivo.lguhc.game.UHCStart;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Collections;
+import java.util.*;
 
 
 public final class LGUHC extends JavaPlugin {
 
 
+    public List<UUID> PlayerInGame = new ArrayList<>();
+    public List<Joueur> Players = new ArrayList<>();
+
+    public ArrayList<LgRoles> compo = new ArrayList<>();
+
+    public Map<Player, Map<Integer, ItemStack>> StartInventory = new HashMap<>();
+
     public  String TabName = "§5§k|||§6 Vuti§bGAMES §5§k|||";
+    public String TabTag = "§6§lLOUP-GAROU§r";
     public String gameTag = "§b§l[§6§lLOUP-GAROUS§b§l] §r";
-
-
     public String PrefixTab = "§c HOST §r";
 
+    public UHCStart start;
     public UHCState state;
-    public Integer nbPlayers = 0;
+
+    public boolean hideCompo = false;
+    public int timerole = 2;
+    public int timepvp = 30;
+    public int timelistlg = 35;
+    public int episode = 1;
+    public int grouplist = 5;
+    public Integer playerIG = 0;
     public Integer nbRoles = 0;
+    public boolean PlayerHasRole = false;
 
     //Cage
     public boolean cage;
@@ -33,7 +52,11 @@ public final class LGUHC extends JavaPlugin {
 
     public World world;
     public WorldBorder wb;
+    public int Border = 1000;
+    public int maxBorder = 300;
     public Location Spawn;
+    public Integer MaxY = 150;
+    public Integer MaxRange = 0;
 
 
 
@@ -64,7 +87,6 @@ public final class LGUHC extends JavaPlugin {
             world.setGameRuleValue("reducedDebugInfo", "true");
             world.setGameRuleValue("naturalRegeneration", "false");
             world.setGameRuleValue("announceAdvancements", "false");
-            world.setGameRuleValue("spawnRadius", "0");
             world.setGameRuleValue("keepInventory", "true");
             world.setGameRuleValue("showDeathMessages", "false");
             world.setDifficulty(Difficulty.HARD);
@@ -104,6 +126,9 @@ public final class LGUHC extends JavaPlugin {
         cage = getConfig().getBoolean("Cage.state");
         cageSize = getConfig().getInt("Cage.cageSize");
         cageHeight = getConfig().getInt("Cage.cageHeight");
+
+        MaxY = getConfig().getInt("Spawn.maxY");
+        MaxRange = getConfig().getInt("Spawn.maxRange");
 
 
 
@@ -181,7 +206,6 @@ public final class LGUHC extends JavaPlugin {
 
 
     }
-
     private Location getLocation(String loc) {
         String[] args = loc.split(",");
 
@@ -192,8 +216,41 @@ public final class LGUHC extends JavaPlugin {
         return new Location(world, x, y, z);
     }
 
-    public  static ItemStack BuildItems(Material material,int color, String name, String lore){
-        ItemStack item = new ItemStack(material , 1, (short) color); // si pas de couleur le mettre à 0
+    public void randomTp(Player player) {
+
+        Random random = new Random();
+
+        int rangeMax = (int) Border /2 - 15;
+        int rangeMin = (int) -Border /2 + 15;
+
+        if (MaxRange != 0) {
+            rangeMax = (int) MaxRange - 15;
+            rangeMin = - (int) MaxRange + 15;
+        }
+
+        int x = random.nextInt((rangeMax - rangeMin) + 1) + rangeMin;
+        int z = random.nextInt((rangeMax - rangeMin) + 1) + rangeMin;
+        int y = MaxY;
+
+        Location teleportLocation = new Location(player.getWorld(), x + Spawn.getX(), y, z + Spawn.getZ());
+
+        player.teleport(teleportLocation);
+    }
+
+
+
+    public  static ItemStack BuildItems(Material material,int color,int amount, String name){
+        ItemStack item = new ItemStack(material , amount, (short) color); // si pas de couleur le mettre à 0
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(name);
+
+        item.setItemMeta(meta);
+        return item;
+
+    }
+
+    public  static ItemStack BuildItems(Material material,int color,int amount, String name,String lore){
+        ItemStack item = new ItemStack(material , amount, (short) color); // si pas de couleur le mettre à 0
         ItemMeta meta = item.getItemMeta();
         meta.setLore(Collections.singletonList(lore));
         meta.setDisplayName(name);
@@ -202,6 +259,61 @@ public final class LGUHC extends JavaPlugin {
         return item;
 
     }
+
+
+    public Joueur getPlayer(UUID uuid){
+        for (Joueur player : Players){
+            if (player.getUUID().equals(uuid)){
+                return player;
+            }
+        }
+        return null;
+    }
+
+    public List<Joueur> getJoueurs() {
+        List<Joueur> joueurs = new ArrayList<>();
+        for (Joueur joueur : Players) {
+            if (joueur.isConnected()) {
+                if (!joueur.isDead()) {
+                    joueurs.add(joueur);
+                }
+            }
+        }
+
+        return joueurs;
+    }
+
+
+
+    public boolean HasRole(UUID uuid){
+        if(getPlayer(uuid) == null)return false;
+        else return true;
+    }
+    public List<Player> getPlayers() {
+        List<Player> players = new ArrayList<>();
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            players.add(player);
+        }
+        return players;
+    }
+
+    public List<LgRoles> allRoles(){
+        List<LgRoles> roles = new ArrayList<>();
+        for (LgRoles role : LgRoles.values()){
+            roles.add(role);
+        }
+        return roles;
+    }
+
+    public boolean RoleIsEmpty() {
+
+        for (LgRoles role : LgRoles.values()) {
+            if (role.number > 0) return false;
+        }
+        return true;
+    }
+
+
 
 
 }

@@ -17,21 +17,22 @@ import java.util.UUID;
 public class ScoreboardManager implements Listener {
     private final Map<UUID, FastBoard> boards = new HashMap<>() ;
   private final LGUHC main;
-  private UHCState state;
+
 
     public ScoreboardManager(LGUHC pl) {
         this.main = pl;
-        this.state = UHCState.WAITTING;
+
 
         new BukkitRunnable() {
             @Override
             public void run() {
                 for (FastBoard board : boards.values()) {
                     try {
-                        if (state == UHCState.WAITTING) {
+                        if (main.isState(UHCState.WAITTING)) {
                             updateWaitingBoard(board);
-                        } else {
-                            updateOtherStateBoard(board);
+                        }
+                        if (main.isState(UHCState.GAME)){
+                            updateGameBoard(board);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -46,19 +47,10 @@ public class ScoreboardManager implements Listener {
 
       FastBoard board = new FastBoard(player);
       board.updateTitle("§cLoup-Garou UHC");
-
-
-
       boards.put(player.getUniqueId(),board);
 
   }
-    public void Removescoreboard(Player player){
-        FastBoard board = boards.remove(player.getUniqueId());
 
-        if(board!= null){
-            board.delete();
-        }
-    }
 
     private void updateWaitingBoard(FastBoard board) {
         try {
@@ -66,23 +58,24 @@ public class ScoreboardManager implements Listener {
                     "",
                     "&a En attente ...",
                     "",
-                    "&7 Joueur: " + main.nbPlayers + " / " + main.nbRoles);
-            main.nbRoles++;
+                    "&7 Joueur: " + main.playerIG + " / " + main.nbRoles);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void updateOtherStateBoard(FastBoard board) {
+    private void updateGameBoard(FastBoard board) {
         try {
-            // Placeholder method for updating scoreboard in other state
-            // Replace with your logic for the other state
+
             updateBoard(board,
+                    "episode : &b"+ main.episode,
+                    "Joueurs &c"+ main.playerIG,
+                    "Groupe de &c"+ main.grouplist,
                     "",
-                    "&c Autre état ...",
+                    "Timer: &c",
+                    "Cycle: &c",
                     "",
-                    "&7 Joueur: " + main.nbPlayers + " / " + main.nbRoles);
-            main.nbRoles++;
+                    "Bordure: &c"+ main.Border);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -6,15 +6,12 @@
 Spawn: #Spawn du joueur
   worldName: "world"
   location: 0, 152, 0
+  maxY: 150
+  maxRange: 0
 
 Cage:  #Permet de generer une cage au spawn !
   state: true
   cageSize: 50
   cageHeight: 4
 
-  #<dependency>
-  #<groupId>com.comphenix.protocol</groupId>
-  #<artifactId>ProtocolLib</artifactId>
-  #<version>4.4.0</version>
-  #<scope>provided</scope>
-  #</dependency>
+

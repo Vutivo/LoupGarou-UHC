@@ -53,7 +53,7 @@ public class CommandHost implements CommandExecutor {
             targetPlayer.recalculatePermissions();
             targetPlayer.setPlayerListName(main.PrefixTab + targetPlayer.getName()); // Change le nom dans la tablist
 
-            ItemStack config = main.BuildItems(Material.COMMAND,0,"§4Config",null);
+            ItemStack config = main.BuildItems(Material.COMMAND,0,1,"§4Config");
             targetPlayer.getInventory().setItem(2,config);
             return false;
         }

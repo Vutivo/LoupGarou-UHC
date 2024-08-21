@@ -24,7 +24,7 @@ public class TabList implements Listener {
 
         PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
         Object header = new ChatComponentText(main.TabName);
-        Object footer = new ChatComponentText("\n§l§fLGUHC" + gameInfo + "\n" + command + "\n\n§bPlugin original par Lapin\n§dDéveloppé par Vutivo");
+        Object footer = new ChatComponentText("\n"+main.TabTag+ gameInfo + "\n" + command + "\n\n§bPlugin original par Lapin\n§dDéveloppé par Vutivo");
         try {
             Field a = packet.getClass().getDeclaredField("a");
             Field b = packet.getClass().getDeclaredField("b");
