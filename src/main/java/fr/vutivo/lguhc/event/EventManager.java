@@ -22,6 +22,7 @@ public class EventManager {
         pm.registerEvents(new ConfigGui(pl),pl);
 
         //event
+        pm.registerEvents(new UHCListeners(pl),pl);
         pm.registerEvents(new UHCPvp(pl),pl);
         pm.registerEvents(new UHCJoin(pl), pl);
 

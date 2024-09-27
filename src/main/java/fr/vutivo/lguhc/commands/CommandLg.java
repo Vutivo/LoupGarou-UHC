@@ -3,6 +3,9 @@ package fr.vutivo.lguhc.commands;
 import fr.vutivo.lguhc.LGUHC;
 import fr.vutivo.lguhc.game.Joueur;
 import fr.vutivo.lguhc.role.LgRoles;
+import fr.vutivo.lguhc.role.use.Salvateur;
+import fr.vutivo.lguhc.role.use.Sorciere;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+
 public class CommandLg implements CommandExecutor {
     private final LGUHC main;
 
@@ -19,6 +23,7 @@ public class CommandLg implements CommandExecutor {
     public CommandLg(LGUHC main) {
 
         this.main = main;
+
     }
 
     @Override
@@ -36,12 +41,13 @@ public class CommandLg implements CommandExecutor {
             player.sendMessage("§9- /lg role /me : §6Infos sur le rôle");
             player.sendMessage("§9- /lg compo : §6Composition de la partie");
             player.sendMessage("§9- /lg doc : §6Accès au doc du mode de jeu");
+
             return false;
         }
         if (args[0].equalsIgnoreCase("role") || args[0].equalsIgnoreCase("me")) {
             if (args.length == 1) {
                 if (main.getPlayer(player.getUniqueId()) == null) {
-                    player.sendMessage(main.gameTag + " §c Erreur, vous devez avoir un role");
+                    player.sendMessage(main.gameTag + " §cErreur, vous devez avoir un role");
                     return false;
                 } else {
                     main.getPlayer(player.getUniqueId()).sendDesc();
@@ -58,12 +64,66 @@ public class CommandLg implements CommandExecutor {
             } else player.sendMessage(main.gameTag + "§cC'est une partie en compo cachée");
 
         }
+        if (args[0].equalsIgnoreCase("proteger")) {
+
+            if(args.length ==1){
+                player.sendMessage(main.gameTag + "§bLa commande : /lg proteger <Joueur>");
+                return false;
+            }
+
+            if (!canCommand(player)) return false;
+
+            if (args.length > 2) {
+                player.sendMessage(main.gameTag + "§bLa commande : /lg proteger <Joueur>");
+
+                return false;
+            }
+
+            if (args.length == 2) {
+                new Salvateur(main).canProtect(main.getPlayer(player.getUniqueId()), args[1]);
+                return false;
+            }
+        }
+
+        if(args[0].equalsIgnoreCase("revive")){
+            if(args.length ==1){
+                player.sendMessage(main.gameTag + "§bLa commande : /lg revive <Joueur>");
+                return false;
+            }
+
+            if(args.length ==2){
+                new Sorciere(main).Revive(main.getPlayer(player.getUniqueId()),args[1]);
+                return false;
+            }
+        }
 
         return false;
     }
 
+    private boolean canCommand(Player player) {
 
-    public void displayRoles(Player player) {
+        if (main.getPlayer(player.getUniqueId()) == null) {
+            player.sendMessage(main.gameTag + "§cVous devez avoir un rôle pour effectuer cette commande !");
+            return false;
+        } else {
+            Joueur j = main.getPlayer(player.getUniqueId());
+            if (j.isDead()) {
+                player.sendMessage(main.gameTag + "§cVous devez être en vie pour effectuer cette commande !");
+                return false;
+            }
+
+        }
+
+        return true;
+    }
+
+
+
+
+
+
+
+    private void displayRoles(Player player) {
         int villageCount = 0;
         int lgCount = 0;
         int soloCount = 0;

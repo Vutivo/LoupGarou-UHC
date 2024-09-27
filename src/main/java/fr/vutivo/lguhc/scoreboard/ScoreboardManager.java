@@ -3,6 +3,7 @@ package fr.vutivo.lguhc.scoreboard;
 import fr.mrmicky.fastboard.FastBoard;
 import fr.vutivo.lguhc.LGUHC;
 import fr.vutivo.lguhc.game.UHCState;
+import fr.vutivo.lguhc.game.UHCgame;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import static fr.vutivo.lguhc.game.UHCgame.Chrono;
 
 
 public class ScoreboardManager implements Listener {
@@ -19,8 +21,14 @@ public class ScoreboardManager implements Listener {
   private final LGUHC main;
 
 
-    public ScoreboardManager(LGUHC pl) {
-        this.main = pl;
+
+
+
+    public ScoreboardManager(LGUHC main) {
+        this.main = main;
+
+
+
 
 
         new BukkitRunnable() {
@@ -39,7 +47,7 @@ public class ScoreboardManager implements Listener {
                     }
                 }
             }
-        }.runTaskTimer(pl, 0L, 20L);
+        }.runTaskTimer(main, 0L, 10L);
 
     }
 
@@ -67,19 +75,23 @@ public class ScoreboardManager implements Listener {
     private void updateGameBoard(FastBoard board) {
         try {
 
+
             updateBoard(board,
                     "episode : &b"+ main.episode,
                     "Joueurs &c"+ main.playerIG,
                     "Groupe de &c"+ main.grouplist,
                     "",
-                    "Timer: &c",
-                    "Cycle: &c",
+                    "Timer: &c"+Chrono(main.Timer),
+                    "Cycle: &b"+ main.Cycle,
                     "",
                     "Bordure: &c"+ main.Border);
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     private void updateBoard(FastBoard board,String... lines){
       for (int x = 0; x < lines.length; ++x){
@@ -87,6 +99,8 @@ public class ScoreboardManager implements Listener {
       }
         board.updateLines(lines);
     }
+
+
 
   }
 

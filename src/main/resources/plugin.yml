@@ -4,6 +4,8 @@ version: '${project.version}'
 main: fr.vutivo.lguhc.LGUHC
 commands:
   lg:
+    aliases: [ww]
     description: Information sur la partie
   host:
+    aliases: [h]
     description: Configuration de la partie

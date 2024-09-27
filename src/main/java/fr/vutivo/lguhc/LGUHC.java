@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
 
 import java.util.*;
 
@@ -22,10 +23,13 @@ public final class LGUHC extends JavaPlugin {
 
     public List<UUID> PlayerInGame = new ArrayList<>();
     public List<Joueur> Players = new ArrayList<>();
-
     public ArrayList<LgRoles> compo = new ArrayList<>();
+    public ArrayList<Player> host = new ArrayList<>();
+    public ArrayList<Player> damageFall = new ArrayList<>();
 
-    public Map<Player, Map<Integer, ItemStack>> StartInventory = new HashMap<>();
+
+    public HashMap <Integer,ItemStack> statrtinginv = new HashMap<>();
+
 
     public  String TabName = "§5§k|||§6 Vuti§bGAMES §5§k|||";
     public String TabTag = "§6§lLOUP-GAROU§r";
@@ -35,11 +39,21 @@ public final class LGUHC extends JavaPlugin {
     public UHCStart start;
     public UHCState state;
 
+
     public boolean hideCompo = false;
+
+    public String Cycle ="Jour";
+    public int Timer = 0;
     public int timerole = 2;
     public int timepvp = 30;
+    public boolean ispvp = false ;
+    public int invincibility = 1;
+    public boolean isinvincibility = true;
+    public int maxDiamond = 17;
     public int timelistlg = 35;
     public int episode = 1;
+    public int epTime = 20;
+    public int timeCycle = 5;
     public int grouplist = 5;
     public Integer playerIG = 0;
     public Integer nbRoles = 0;
@@ -54,6 +68,9 @@ public final class LGUHC extends JavaPlugin {
     public WorldBorder wb;
     public int Border = 1000;
     public int maxBorder = 300;
+    public int reductionBorder = 90;
+    public int strength = 50;
+    public int resistance = 20;
     public Location Spawn;
     public Integer MaxY = 150;
     public Integer MaxRange = 0;
@@ -62,14 +79,12 @@ public final class LGUHC extends JavaPlugin {
 
     //Color
     public final String RESET = "\u001B[0m";
-    public final String BLACK = "\u001B[30m";
     public final String RED = "\u001B[31m";
     public final String GREEN = "\u001B[32m";
     public final String YELLOW = "\u001B[33m";
     public final String BLUE = "\u001B[34m";
-    public final String PURPLE = "\u001B[35m";
     public final String CYAN = "\u001B[36m";
-    public final String WHITE = "\u001B[37m";
+
 
 
     @Override
@@ -80,6 +95,7 @@ public final class LGUHC extends JavaPlugin {
         saveDefaultConfig();
 
         loadConfig();
+
         
 
         if (world != null) {
@@ -89,7 +105,9 @@ public final class LGUHC extends JavaPlugin {
             world.setGameRuleValue("announceAdvancements", "false");
             world.setGameRuleValue("keepInventory", "true");
             world.setGameRuleValue("showDeathMessages", "false");
-            world.setDifficulty(Difficulty.HARD);
+            world.setStorm(false);
+            world.setThundering(false);
+            world.setDifficulty(Difficulty.NORMAL);
             wb = world.getWorldBorder();
 
         } else {
@@ -97,6 +115,9 @@ public final class LGUHC extends JavaPlugin {
         }
         EventManager.registerEvents(this);
         state = UHCState.WAITTING;
+        playerIG = Bukkit.getOnlinePlayers().size();
+
+
 
         getCommand("lg").setExecutor(new CommandLg(this));
         getCommand("host").setExecutor(new CommandHost(this));
@@ -147,6 +168,7 @@ public final class LGUHC extends JavaPlugin {
         this.state = state;
     }
 
+
     public Boolean isState(UHCState state) {
         return this.state == state;
     }
@@ -161,7 +183,7 @@ public final class LGUHC extends JavaPlugin {
         for (int x = -cageSize / 2; x < cageSize / 2; x++) {
             for (int z = -cageSize / 2; z < cageSize / 2; z++) {
                 Block block = world.getBlockAt(x, startY, z);
-                block.setType(Material.STAINED_GLASS);
+                block.setType(Material.BARRIER);
 
             }
         }
@@ -171,7 +193,7 @@ public final class LGUHC extends JavaPlugin {
                 for (int z = -cageSize / 2; z < cageSize / 2; z++) {
                     if (x == -cageSize / 2 || x == cageSize / 2 - 1 || z == -cageSize / 2 || z == cageSize / 2 - 1) {
                         Block block = world.getBlockAt(x, y, z);
-                        block.setType(Material.STAINED_GLASS_PANE);
+                        block.setType(Material.BARRIER);
                     }
                 }
             }
@@ -209,9 +231,9 @@ public final class LGUHC extends JavaPlugin {
     private Location getLocation(String loc) {
         String[] args = loc.split(",");
 
-        double x = Double.valueOf(args[0]);
-        double y = Double.valueOf(args[1]);
-        double z = Double.valueOf(args[2]);
+        double x = Double.parseDouble(args[0]);
+        double y = Double.parseDouble(args[1]);
+        double z = Double.parseDouble(args[2]);
 
         return new Location(world, x, y, z);
     }
@@ -235,6 +257,16 @@ public final class LGUHC extends JavaPlugin {
         Location teleportLocation = new Location(player.getWorld(), x + Spawn.getX(), y, z + Spawn.getZ());
 
         player.teleport(teleportLocation);
+        damageFall.add(player);
+        Bukkit.getScheduler().runTaskLater(this, new Runnable() {
+            @Override
+            public void run() {
+                damageFall.remove(player);
+            }
+        }, 100L);
+
+
+
     }
 
 
@@ -248,6 +280,7 @@ public final class LGUHC extends JavaPlugin {
         return item;
 
     }
+
 
     public  static ItemStack BuildItems(Material material,int color,int amount, String name,String lore){
         ItemStack item = new ItemStack(material , amount, (short) color); // si pas de couleur le mettre à 0
@@ -270,6 +303,8 @@ public final class LGUHC extends JavaPlugin {
         return null;
     }
 
+
+
     public List<Joueur> getJoueurs() {
         List<Joueur> joueurs = new ArrayList<>();
         for (Joueur joueur : Players) {
@@ -289,30 +324,35 @@ public final class LGUHC extends JavaPlugin {
         if(getPlayer(uuid) == null)return false;
         else return true;
     }
-    public List<Player> getPlayers() {
-        List<Player> players = new ArrayList<>();
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            players.add(player);
-        }
-        return players;
+
+
+    public boolean hasRole(UUID uuid) {
+    if (getPlayer(uuid)== null) {
+        return false;
+    } else return true;
+
     }
 
-    public List<LgRoles> allRoles(){
-        List<LgRoles> roles = new ArrayList<>();
-        for (LgRoles role : LgRoles.values()){
-            roles.add(role);
-        }
-        return roles;
+    public boolean hasRole(Player player) {
+        return hasRole(player.getUniqueId());
+
     }
 
-    public boolean RoleIsEmpty() {
-
-        for (LgRoles role : LgRoles.values()) {
-            if (role.number > 0) return false;
+    public void clearPlayer(Player player){
+        player.getInventory().clear();
+        player.getInventory().setArmorContents(null);
+        player.updateInventory();
+        player.setExp(0);
+        player.setLevel(0);
+        player.setMaxHealth(20);
+        player.setHealth(20);
+        player.setFoodLevel(20);
+        player.setGameMode(GameMode.SURVIVAL);
+        for (PotionEffect effect : player.getActivePotionEffects()) {
+            player.removePotionEffect(effect.getType());
         }
-        return true;
-    }
 
+    }
 
 
 
